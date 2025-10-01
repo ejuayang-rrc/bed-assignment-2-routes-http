@@ -1,4 +1,4 @@
-import { Employee, employees } from "src/data/employees";
+import { Employee, employees } from "../../../data/employees";
 
 /**
  * Creates a new employee with the given information

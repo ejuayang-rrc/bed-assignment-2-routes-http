@@ -6,14 +6,6 @@ import employeeRoutes from "./api/v1/routes/employeeRoutes";
 // Initialize Express application
 const app: Express = express();
 
-// Interface for health check response
-interface HealthCheckResponse {
-    status: string;
-    uptime: number;
-    timestamp: string;
-    version: string;
-}
-
 // Morgan for HTTP request logging
 app.use(morgan("combined"));
 
@@ -25,14 +17,12 @@ app.use(express.json());
  * @returns server health metrics in a json response
  */
 app.get("/api/v1/health", (req, res) => {
-    const healthCheck: HealthCheckResponse = {
+    res.json({
         status: "OK",
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
         version: "1.0.0",
-    };
-
-    res.json(healthCheck);
+    });
 });
 
 // Route Imports

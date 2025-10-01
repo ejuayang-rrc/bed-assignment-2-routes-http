@@ -7,13 +7,13 @@
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.6.0",
+    "@types/node": "^24.6.1",
     "@types/supertest": "^6.0.3",
     "jest": "^30.2.0",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "name": "bed-assignment-2-routes-http",
   "version": "1.0.0",
@@ -36,5 +36,8 @@
   "bugs": {
     "url": "https://github.com/ejuayang-rrc/bed-assignment-2-routes-http/issues"
   },
-  "homepage": "https://github.com/ejuayang-rrc/bed-assignment-2-routes-http#readme"
+  "homepage": "https://github.com/ejuayang-rrc/bed-assignment-2-routes-http#readme",
+  "directories": {
+    "test": "test"
+  }
 }
