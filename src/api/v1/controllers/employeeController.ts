@@ -175,3 +175,69 @@ export const deleteEmployee = async (
         next(error);
     }
 };
+
+/**
+ * Manages requests and responses to retrieve Employees from a branch
+ * @param req - The express Request
+ * @param res  - The express Response
+ * @param next - The express middleware chaining function
+ */
+export const getBranchEmployees = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        const branchEmployees: Employee[] = 
+        await employeeService.getBranchEmployees(parseInt(id));
+
+        if (branchEmployees.length === 0) {
+            res.status(HTTP_STATUS.NOT_FOUND).json({
+                message: `Couldn't find employees from branch ${id}`,
+            });
+        }
+        else {
+            res.status(HTTP_STATUS.OK).json({
+                message: `Employees retrieved from branch ${id} successfully`,
+                data: branchEmployees
+            });
+        }
+    } catch (error: unknown) {
+        next(error);
+    }
+};
+
+/**
+ * Manages requests and responses to retrieve Employees from a department
+ * @param req - The express Request
+ * @param res  - The express Response
+ * @param next - The express middleware chaining function
+ */
+export const getDepartmentEmployees = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { department } = req.params;
+
+        const departmentEmployees: Employee[] = 
+        await employeeService.getDepartmentEmployees(department);
+
+        if (departmentEmployees.length === 0) {
+            res.status(HTTP_STATUS.NOT_FOUND).json({
+                message: `Couldn't find employees from ${department}`,
+            });
+        }
+        else {
+            res.status(HTTP_STATUS.OK).json({
+                message: `Employees retrieved from ${department} successfully`,
+                data: departmentEmployees
+            });
+        }
+    } catch (error: unknown) {
+        next(error);
+    }
+};
