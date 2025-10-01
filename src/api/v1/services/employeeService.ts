@@ -6,14 +6,7 @@ import { Employee, employees } from "../../../data/employees";
  * @returns The new employee and their information
  */
 export const createEmployee = async (
-    employeeData: {
-        name: string;
-        position: string;
-        department: string;
-        email: string;
-        phone: string;
-        branchId: number;
-    }
+    employeeData: Omit<Employee, "id">
 ): Promise<Employee> => {
     let newId: number = 0;
     let isNotUnique: boolean = true;

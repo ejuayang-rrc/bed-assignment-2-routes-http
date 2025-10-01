@@ -39,14 +39,18 @@ export const createEmployee = async (
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Branch ID is required",
             });
+        } else if (isNaN(req.body.branchId)) {
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
+                message: "Employee's Branch ID is not numeric",
+            });
         } else {
             const { 
                 name, 
                 position, 
                 department, 
                 email, 
-                phone, 
-                branchId 
+                phone,
+                branchId
             } = req.body;
 
             const newEmployee: Employee = 
