@@ -3,7 +3,7 @@ import { Employee, employees } from "../../../data/employees";
 /**
  * Creates a new employee with the given information
  * @param employeeData - Details of the employee
- * @returns The new employee and their information
+ * @returns The new employee and their details
  */
 export const createEmployee = async (
     employeeData: Omit<Employee, "id">
@@ -55,7 +55,7 @@ export const getAllEmployees = async (): Promise<Employee[]> => {
 export const getEmployeeById = async (
     id: number
 ): Promise<Employee> => {
-    // Get index with matching employee with given id
+    // Get index with matching employee with given ID
     const index: number = employees.findIndex(
         (employee: Employee) => employee.id === id
     );
@@ -71,15 +71,15 @@ export const getEmployeeById = async (
 /**
  * Updates an existing employee's position or phone number
  * @param id - The ID of the employee to update
- * @param employeeData - The fields to update (position or phone number)
- * @returns The updated Employee
+ * @param employeeData - The fields to update (position and/or phone number)
+ * @returns The updated employee
  * @throws Error if employee with given ID is not found
  */
 export const updateEmployee = async (
     id: number,
     employeeData: Pick<Employee, "position" | "phone">
 ): Promise<Employee> => {
-    // Get index with matching employee with given id
+    // Get index of matching employee with given ID
     const index: number = employees.findIndex(
         (employee: Employee) => employee.id === id
     );
@@ -89,7 +89,7 @@ export const updateEmployee = async (
         throw new Error(`Couldn't find Employee with ID:${id}`);
     }
 
-    // Updates the employee with given fields
+    // Updates the employee object with the given fields
     employees[index] = {
         ...employees[index],
         ...employeeData,
@@ -99,7 +99,7 @@ export const updateEmployee = async (
 };
 
 /**
- * Deletes an employee from database
+ * Deletes an employee from the database
  * @param id - The ID of the employee to delete
  * @throws Error if employee with given ID is not found
  */

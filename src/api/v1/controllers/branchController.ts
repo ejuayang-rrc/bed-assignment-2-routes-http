@@ -15,6 +15,8 @@ export const createBranch = async (
     next: NextFunction
 ): Promise<void> => {
     try {
+        console.log("BODY: "+ req.body);
+
         if (!req.body.name) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Branch Name is required",

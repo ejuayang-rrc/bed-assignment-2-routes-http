@@ -1,4 +1,4 @@
-import { Branch, branches } from "src/data/branches";
+import { Branch, branches } from "../../../data/branches";
 
 /**
  * Creates a new branch with the given information

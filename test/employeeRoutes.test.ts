@@ -39,11 +39,11 @@ describe("Employee API Endpoints", () => {
         });
 
         it("should return 400 with missing parameters", async () => {
-            // ARRANGE: Mocking the function to to simulate a http status of 400
-            (employeeController.createEmployee as jest.Mock)
-            .mockImplementation((req, res) => {
-                return res.status(HTTP_STATUS.BAD_REQUEST).send({});
-            });
+            // // ARRANGE: Mocking the function to to simulate a http status of 400
+            // (employeeController.createEmployee as jest.Mock)
+            // .mockImplementation((req, res) => {
+            //     return res.status(HTTP_STATUS.BAD_REQUEST).send({});
+            // });
 
             // ACT:
             const response = await request(app).post("/api/v1/employees/").send({});

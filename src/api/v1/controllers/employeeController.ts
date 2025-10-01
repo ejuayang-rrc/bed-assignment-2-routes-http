@@ -13,34 +13,35 @@ export const createEmployee = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void> => {
+): Promise<any> => {
+    console.log("BODY:" + req.body);
     try {
         if (!req.body.name) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Name is required",
             });
         } else if (!req.body.position) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Position is required",
             });
         } else if (!req.body.department) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Department is required",
             });
         } else if (!req.body.email) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Email is required",
             });
         } else if (!req.body.phone) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Phone Number is required",
             });
         } else if (!req.body.branchId) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Branch ID is required",
             });
         } else if (isNaN(req.body.branchId)) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
+            return res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Branch ID is not numeric",
             });
         } else {
@@ -63,7 +64,7 @@ export const createEmployee = async (
                 branchId 
             });
 
-            res.status(HTTP_STATUS.CREATED).json({
+            return res.status(HTTP_STATUS.CREATED).json({
                 message: `Employee ${newEmployee.id} created successfully`,
                 data: newEmployee
             });
