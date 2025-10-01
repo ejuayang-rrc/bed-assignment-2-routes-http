@@ -118,3 +118,22 @@ export const deleteEmployee = async (
 
     employees.splice(index, 1);
 };
+
+/**
+ * Retrieves employees belonging to the specified branch
+ * @param id - ID of the branch to search in
+ * @returns Employees within the same branch
+ */
+export const getBranchEmployees = async (
+    id: number
+): Promise<Employee[]> => {
+    let branchEmployees: Employee[] = [];
+
+    for (const index in employees) {
+        if (id === employees[index].branchId) {
+            branchEmployees.push(employees[index]);
+        }
+    }
+
+    return branchEmployees;
+};
