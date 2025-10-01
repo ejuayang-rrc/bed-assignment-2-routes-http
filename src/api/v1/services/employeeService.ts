@@ -137,3 +137,22 @@ export const getBranchEmployees = async (
 
     return branchEmployees;
 };
+
+/**
+ * Retrieves employees belonging to the specified department
+ * @param id - Name of the department to search in
+ * @returns Employees within the same department
+ */
+export const getDepartmentEmployees = async (
+    department: string
+): Promise<Employee[]> => {
+    let departmentEmployees: Employee[] = [];
+
+    for (const index in employees) {
+        if (department === employees[index].department) {
+            departmentEmployees.push(employees[index]);
+        }
+    }
+
+    return departmentEmployees;
+};
