@@ -15,7 +15,7 @@ export interface Branch {
     phone: string;
 }
 
-export const Branches: Branch[] = [
+export const branches: Branch[] = [
     {
         id: 1,
         name: "Vancouver Branch",

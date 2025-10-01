@@ -12,16 +12,7 @@ export interface Employee {
     position: string;
 
     /** The department the employee works under */
-    department: 
-        | "Management" 
-        | "Customer Service" 
-        | "Loans" 
-        | "IT" 
-        | "Advisory" 
-        | "Operations"
-        | "Finance"
-        | "Marketing"
-        | "Human Resources";
+    department: string;
 
     /** The employee's email */
     email: string;
