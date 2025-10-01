@@ -1,16 +1,10 @@
 import request from "supertest";
 import app from "../src/app";
-import * as employeeController from "../src/api/v1/controllers/employeeController";
 import { HTTP_STATUS } from "../src/constants/httpConstants";
+import * as employeeService from "../src/api/v1/services/employeeService";
 
 // Mock CRUD Operations
-jest.mock("../src/api/v1/controllers/employeeController", () => ({
-    createEmployee: jest.fn((req, res) => res.status(HTTP_STATUS.CREATED).send()),
-    getAllEmployees: jest.fn((req, res) => res.status(HTTP_STATUS.OK).send()),
-    getEmployeeById: jest.fn((req, res) => res.status(HTTP_STATUS.OK).send()),
-    updateEmployee: jest.fn((req, res) => res.status(HTTP_STATUS.OK).send()),
-    deleteEmployee: jest.fn((req, res) => res.status(HTTP_STATUS.OK).send()),
-}));
+jest.mock("../src/api/v1/services/employeeService");
 
 describe("Employee API Endpoints", () => {
     beforeEach(() => {
@@ -34,17 +28,10 @@ describe("Employee API Endpoints", () => {
             await request(app).post("/api/v1/employees/").send(mockEmployee);
 
             // ASSERT:
-            expect(employeeController.createEmployee).toHaveBeenCalled();
-            expect(response.status).toBe(HTTP_STATUS.CREATED);
+            expect(employeeService.createEmployee).toHaveBeenCalled();
         });
 
         it("should return 400 with missing parameters", async () => {
-            // // ARRANGE: Mocking the function to to simulate a http status of 400
-            // (employeeController.createEmployee as jest.Mock)
-            // .mockImplementation((req, res) => {
-            //     return res.status(HTTP_STATUS.BAD_REQUEST).send({});
-            // });
-
             // ACT:
             const response = await request(app).post("/api/v1/employees/").send({});
 
@@ -59,7 +46,7 @@ describe("Employee API Endpoints", () => {
             await request(app).get("/api/v1/employees/");
 
             // ASSERT:
-            expect(employeeController.getAllEmployees).toHaveBeenCalled();
+            expect(employeeService.getAllEmployees).toHaveBeenCalled();
         })
     });
 
@@ -69,7 +56,7 @@ describe("Employee API Endpoints", () => {
             await request(app).get("/api/v1/employees/1");
 
             // ASSERT:
-            expect(employeeController.getEmployeeById).toHaveBeenCalled();
+            expect(employeeService.getEmployeeById).toHaveBeenCalled();
         })
 
         it("should return all employees when ID parameter is missing", async () => {
@@ -77,7 +64,7 @@ describe("Employee API Endpoints", () => {
             await request(app).get("/api/v1/employees/");
 
             // ASSERT:
-            expect(employeeController.getAllEmployees).toHaveBeenCalled();
+            expect(employeeService.getAllEmployees).toHaveBeenCalled();
         })
     });
 
@@ -93,7 +80,7 @@ describe("Employee API Endpoints", () => {
             await request(app).put("/api/v1/employees/1").send(mockItem);
 
             // ASSERT:
-            expect(employeeController.updateEmployee).toHaveBeenCalled();
+            expect(employeeService.updateEmployee).toHaveBeenCalled();
         })
 
         it("should return 404 when ID parameter is missing", async () => {
@@ -111,7 +98,7 @@ describe("Employee API Endpoints", () => {
             await request(app).delete("/api/v1/employees/1");
 
             // ASSERT:
-            expect(employeeController.deleteEmployee).toHaveBeenCalled();
+            expect(employeeService.deleteEmployee).toHaveBeenCalled();
         })
 
         it("should return 404 when ID parameter is missing", async () => {

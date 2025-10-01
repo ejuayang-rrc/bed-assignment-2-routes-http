@@ -14,34 +14,33 @@ export const createEmployee = async (
     res: Response,
     next: NextFunction
 ): Promise<any> => {
-    console.log("BODY:" + req.body);
     try {
         if (!req.body.name) {
-            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Name is required",
             });
         } else if (!req.body.position) {
-            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Position is required",
             });
         } else if (!req.body.department) {
-            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Department is required",
             });
         } else if (!req.body.email) {
-            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Email is required",
             });
         } else if (!req.body.phone) {
-            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Phone Number is required",
             });
         } else if (!req.body.branchId) {
-            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Branch ID is required",
             });
         } else if (isNaN(req.body.branchId)) {
-            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Branch ID is not numeric",
             });
         } else {
@@ -64,7 +63,7 @@ export const createEmployee = async (
                 branchId 
             });
 
-            return res.status(HTTP_STATUS.CREATED).json({
+            res.status(HTTP_STATUS.CREATED).json({
                 message: `Employee ${newEmployee.id} created successfully`,
                 data: newEmployee
             });
