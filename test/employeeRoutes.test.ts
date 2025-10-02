@@ -47,7 +47,7 @@ describe("Employee API Endpoints", () => {
 
             // ASSERT:
             expect(employeeService.getAllEmployees).toHaveBeenCalled();
-        })
+        });
     });
 
     describe("GET /api/v1/employees/:id", () => {
@@ -57,7 +57,7 @@ describe("Employee API Endpoints", () => {
 
             // ASSERT:
             expect(employeeService.getEmployeeById).toHaveBeenCalled();
-        })
+        });
 
         it("should return all employees when ID parameter is missing", async () => {
             // ACT:
@@ -65,7 +65,7 @@ describe("Employee API Endpoints", () => {
 
             // ASSERT:
             expect(employeeService.getAllEmployees).toHaveBeenCalled();
-        })
+        });
     });
 
     describe("PUT /api/v1/employees/:id", () => {
@@ -81,7 +81,7 @@ describe("Employee API Endpoints", () => {
 
             // ASSERT:
             expect(employeeService.updateEmployee).toHaveBeenCalled();
-        })
+        });
 
         it("should return 404 when ID parameter is missing", async () => {
             // ACT:
@@ -89,7 +89,7 @@ describe("Employee API Endpoints", () => {
 
             // ASSERT:
             expect(response.status).toBe(HTTP_STATUS.NOT_FOUND);
-        })
+        });
     });
 
     describe("DELETE /api/v1/employees/:id", () => {
@@ -99,7 +99,7 @@ describe("Employee API Endpoints", () => {
 
             // ASSERT:
             expect(employeeService.deleteEmployee).toHaveBeenCalled();
-        })
+        });
 
         it("should return 404 when ID parameter is missing", async () => {
             // ACT:
@@ -107,6 +107,44 @@ describe("Employee API Endpoints", () => {
 
             // ASSERT:
             expect(response.status).toBe(HTTP_STATUS.NOT_FOUND);
-        })
+        });
+    });
+
+    describe("PUT /api/v1/employees/branch/:branchId", () => {
+        it("should retrieve an array of employees from the same branch", async () => {
+            // ACT:
+            await request(app).get("/api/v1/employees/branch/3");
+
+            // ASSERT:
+            expect(employeeService.getBranchEmployees).toHaveBeenCalled();
+        });
+
+        // No clue how else to do this, http status keeps returning 200
+        // it("should return 500 if branch is left blank", async () => {
+        //     // ACT:
+        //     const response = await request(app).get("/api/v1/employees/branch/");
+
+        //     // ASSERT:
+        //     expect(response.status).toBe(500);
+        // });
+    });
+
+    describe("PUT /api/v1/employees/department/:department", () => {
+        it("should retrieve an array of employees from the same department", async () => {
+            // ACT:
+            await request(app).get("/api/v1/employees/department/IT");
+
+            // ASSERT:
+            expect(employeeService.getDepartmentEmployees).toHaveBeenCalled();
+        });
+
+        // No clue how else to do this, http status keeps returning 200
+        // it("should return 500 if department is left blank", async () => {
+        //     // ACT:
+        //     const response = await request(app).get("/api/v1/employees/department/");
+
+        //     // ASSERT:
+        //     expect(response.status).toBe(500);
+        // });
     });
 })

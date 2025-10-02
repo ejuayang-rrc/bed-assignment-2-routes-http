@@ -135,7 +135,7 @@ export const getBranchEmployees = async (
         }
     }
 
-    return branchEmployees;
+    return structuredClone(branchEmployees);
 };
 
 /**
@@ -146,13 +146,9 @@ export const getBranchEmployees = async (
 export const getDepartmentEmployees = async (
     department: string
 ): Promise<Employee[]> => {
-    let departmentEmployees: Employee[] = [];
+    const matchingEmployees: Employee[] = employees.filter((employee: Employee) =>
+        employee.department.toLowerCase().includes(department.toLowerCase())
+    );
 
-    for (const index in employees) {
-        if (department === employees[index].department) {
-            departmentEmployees.push(employees[index]);
-        }
-    }
-
-    return departmentEmployees;
+    return structuredClone(matchingEmployees);
 };

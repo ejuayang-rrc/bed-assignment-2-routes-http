@@ -44,7 +44,7 @@ describe("Branch API Endpoints", () => {
 
             // ASSERT:
             expect(branchService.getAllBranches).toHaveBeenCalled();
-        })
+        });
     });
 
     describe("GET /api/v1/branch/:id", () => {
@@ -54,7 +54,7 @@ describe("Branch API Endpoints", () => {
 
             // ASSERT:
             expect(branchService.getBranchById).toHaveBeenCalled();
-        })
+        });
 
         it("should return all branches when ID parameter is missing", async () => {
             // ACT:
@@ -62,7 +62,7 @@ describe("Branch API Endpoints", () => {
 
             // ASSERT:
             expect(branchService.getAllBranches).toHaveBeenCalled();
-        })
+        });
     });
 
     describe("PUT /api/v1/branch/:id", () => {
@@ -78,7 +78,7 @@ describe("Branch API Endpoints", () => {
 
             // ASSERT:
             expect(branchService.updateBranch).toHaveBeenCalled();
-        })
+        });
 
         it("should return 404 when ID parameter is missing", async () => {
             // ACT:
@@ -86,7 +86,7 @@ describe("Branch API Endpoints", () => {
 
             // ASSERT:
             expect(response.status).toBe(HTTP_STATUS.NOT_FOUND);
-        })
+        });
     });
 
     describe("DELETE /api/v1/branch/:id", () => {
@@ -96,7 +96,7 @@ describe("Branch API Endpoints", () => {
 
             // ASSERT:
             expect(branchService.deleteBranch).toHaveBeenCalled();
-        })
+        });
 
         it("should return 404 when ID parameter is missing", async () => {
             // ACT:
@@ -104,6 +104,6 @@ describe("Branch API Endpoints", () => {
 
             // ASSERT:
             expect(response.status).toBe(HTTP_STATUS.NOT_FOUND);
-        })
+        });
     });
 })

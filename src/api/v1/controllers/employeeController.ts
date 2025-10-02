@@ -110,7 +110,6 @@ export const getEmployeeById = async (
 ): Promise<void> => {
     try {
         const { id } = req.params;
-
         const employee: Employee = 
         await employeeService.getEmployeeById(parseInt(id));
 
@@ -188,22 +187,20 @@ export const getBranchEmployees = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const { id } = req.params;
+        const { branchId } = req.params;
+        const branchEmployees: Employee[] = await
+        employeeService.getBranchEmployees(parseInt(branchId));
 
-        const branchEmployees: Employee[] = 
-        await employeeService.getBranchEmployees(parseInt(id));
-
-        if (branchEmployees.length === 0) {
+        if (branchEmployees.length <= 0) {
             res.status(HTTP_STATUS.NOT_FOUND).json({
-                message: `Couldn't find employees from branch ${id}`,
+                message: `Employees from branch ${branchId} not found`,
             });
-        }
-        else {
-            res.status(HTTP_STATUS.OK).json({
-                message: `Employees retrieved from branch ${id} successfully`,
-                data: branchEmployees
-            });
-        }
+        } 
+
+        res.status(HTTP_STATUS.OK).json({
+            message: `Employees from branch ${branchId} retrieved successfully`,
+            data: branchEmployees
+        });
     } catch (error: unknown) {
         next(error);
     }
@@ -222,21 +219,19 @@ export const getDepartmentEmployees = async (
 ): Promise<void> => {
     try {
         const { department } = req.params;
-
-        const departmentEmployees: Employee[] = 
-        await employeeService.getDepartmentEmployees(department);
-
-        if (departmentEmployees.length === 0) {
+        const departmentEmployees: Employee[] = await
+        employeeService.getDepartmentEmployees(department);
+        
+        if (departmentEmployees.length <= 0) {
             res.status(HTTP_STATUS.NOT_FOUND).json({
-                message: `Couldn't find employees from ${department}`,
+                message: `Employees from ${department} not found`
             });
-        }
-        else {
-            res.status(HTTP_STATUS.OK).json({
-                message: `Employees retrieved from ${department} successfully`,
-                data: departmentEmployees
-            });
-        }
+        } 
+
+        res.status(HTTP_STATUS.OK).json({
+            message: `Employees from ${department} retrieved successfully`,
+            data: departmentEmployees
+        });
     } catch (error: unknown) {
         next(error);
     }
