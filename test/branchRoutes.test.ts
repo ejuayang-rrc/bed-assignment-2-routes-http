@@ -38,7 +38,7 @@ describe("Branch API Endpoints", () => {
 
         it("should return 400 with missing parameters", async () => {
             // ACT:
-            const response = await request(app).post("/api/v1/branch/").send({});
+            const response: Response = await request(app).post("/api/v1/branch/").send({});
 
             // ASSERT: 
             expect(response.status).toBe(HTTP_STATUS.BAD_REQUEST);
