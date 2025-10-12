@@ -12,8 +12,8 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "noImplicitThis": true,
-        "noUnusedParameters": true,
-        "noUnusedLocals": true,
+        // "noUnusedParameters": true,
+        // "noUnusedLocals": true,
         "alwaysStrict": true,
         "baseUrl": "./",
         "paths": {

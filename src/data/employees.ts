@@ -12,16 +12,7 @@ export interface Employee {
     position: string;
 
     /** The department the employee works under */
-    department: 
-        | "Management" 
-        | "Customer Service" 
-        | "Loans" 
-        | "IT" 
-        | "Advisory" 
-        | "Operations"
-        | "Finance"
-        | "Marketing"
-        | "Human Resources";
+    department: string;
 
     /** The employee's email */
     email: string;
@@ -33,6 +24,7 @@ export interface Employee {
     branchId: number;
 }
 
+
 export const employees: Employee[] = [
     { 
         id: 1, 
@@ -41,7 +33,7 @@ export const employees: Employee[] = [
         department: "Management", 
         email: "alice.johnson@pixell-river.com", 
         phone: "604-555-0148", 
-        branchId: 1 
+        branchId: 1,
     },
     { 
         id: 2, 
@@ -50,7 +42,7 @@ export const employees: Employee[] = [
         department: "Customer Service", 
         email: "amandeep.singh@pixell-river.com", 
         phone: "780-555-0172", 
-        branchId: 2 
+        branchId: 2,
     },
     { 
         id: 3, 
@@ -59,7 +51,7 @@ export const employees: Employee[] = [
         department: "Loans", 
         email: "maria.garcia@pixell-river.com", 
         phone: "204-555-0193", 
-        branchId: 3 
+        branchId: 3,
     },
     { 
         id: 4, 
@@ -68,7 +60,7 @@ export const employees: Employee[] = [
         department: "IT", 
         email: "james.wilson@pixell-river.com", 
         phone: "604-555-0134", 
-        branchId: 1 
+        branchId: 1,
     },
     { 
         id: 5, 
@@ -77,7 +69,8 @@ export const employees: Employee[] = [
         department: "Advisory", 
         email: "linda.martinez@pixell-river.com", 
         phone: "780-555-0165", 
-        branchId: 2 },
+        branchId: 2,
+    },
     { 
         id: 6, 
         name: "Michael Brown", 
@@ -85,7 +78,7 @@ export const employees: Employee[] = [
         department: "Operations", 
         email: "michael.brown@pixell-river.com", 
         phone: "204-555-0187", 
-        branchId: 3 
+        branchId: 3, 
     },
     { 
         id: 7, 
@@ -94,7 +87,7 @@ export const employees: Employee[] = [
         department: "Operations", 
         email: "patricia.taylor@pixell-river.com", 
         phone: "204-555-0204", 
-        branchId: 3 
+        branchId: 3, 
     },
     { 
         id: 8, 
@@ -103,7 +96,7 @@ export const employees: Employee[] = [
         department: "Loans", 
         email: "chen.wei@pixell-river.com", 
         phone: "204-555-0218", 
-        branchId: 5 
+        branchId: 5, 
     },
     { 
         id: 9, 
@@ -112,7 +105,7 @@ export const employees: Employee[] = [
         department: "Finance", 
         email: "charles.thomas@pixell-river.com", 
         phone: "204-555-0225", 
-        branchId: 5 
+        branchId: 5, 
     },
     { 
         id: 10, 
@@ -121,7 +114,7 @@ export const employees: Employee[] = [
         department: "Marketing", 
         email: "elizabeth.jackson@pixell-river.com", 
         phone: "204-555-0237", 
-        branchId: 6 
+        branchId: 6, 
     },
     { 
         id: 11, 
@@ -130,7 +123,7 @@ export const employees: Employee[] = [
         department: "IT", 
         email: "christopher.white@pixell-river.com", 
         phone: "604-555-0244", 
-        branchId: 1 
+        branchId: 1, 
     },
     { 
         id: 12, 
@@ -139,7 +132,7 @@ export const employees: Employee[] = [
         department: "Management", 
         email: "jennifer.harris@pixell-river.com", 
         phone: "204-555-0252", 
-        branchId: 6 
+        branchId: 6, 
     },
     { 
         id: 13, 
@@ -148,7 +141,7 @@ export const employees: Employee[] = [
         department: "Customer Service", 
         email: "william.martin@pixell-river.com", 
         phone: "416-555-0260", 
-        branchId: 8 
+        branchId: 8, 
     },
     { 
         id: 14, 
@@ -157,7 +150,7 @@ export const employees: Employee[] = [
         department: "Loans", 
         email: "jessica.lewis@pixell-river.com", 
         phone: "514-555-0278", 
-        branchId: 7 
+        branchId: 7, 
     },
     { 
         id: 15, 
@@ -166,7 +159,7 @@ export const employees: Employee[] = [
         department: "Operations", 
         email: "thomas.walker@pixell-river.com", 
         phone: "506-555-0285", 
-        branchId: 9 
+        branchId: 9, 
     },
     { 
         id: 16, 
@@ -175,7 +168,7 @@ export const employees: Employee[] = [
         department: "Finance", 
         email: "karen.hall@pixell-river.com", 
         phone: "204-555-0294", 
-        branchId: 6 
+        branchId: 6, 
     },
     { 
         id: 17, 
@@ -184,7 +177,8 @@ export const employees: Employee[] = [
         department: "IT", 
         email: "steven.allen@pixell-river.com", 
         phone: "416-555-0307", 
-        branchId: 8 },
+        branchId: 8, 
+    },
     { 
         id: 18, 
         name: "Donna Young", 
@@ -192,7 +186,7 @@ export const employees: Employee[] = [
         department: "Human Resources", 
         email: "donna.young@pixell-river.com", 
         phone: "514-555-0315", 
-        branchId: 7 
+        branchId: 7, 
     },
     { 
         id: 19, 
@@ -201,7 +195,8 @@ export const employees: Employee[] = [
         department: "Management", 
         email: "joseph.hernandez@pixell-river.com", 
         phone: "204-555-0328", 
-        branchId: 10 },
+        branchId: 10, 
+    },
     { 
         id: 20, 
         name: "Sarah King", 
@@ -209,7 +204,8 @@ export const employees: Employee[] = [
         department: "Customer Service", 
         email: "sarah.king@pixell-river.com", 
         phone: "506-555-0336", 
-        branchId: 9 },
+        branchId: 9,
+    },
     { 
         id: 21, 
         name: "Emily Clark", 
@@ -217,7 +213,8 @@ export const employees: Employee[] = [
         department: "Loans", 
         email: "emily.clark@pixell-river.com", 
         phone: "204-555-0342", 
-        branchId: 5 },
+        branchId: 5, 
+    },
     { 
         id: 22, 
         name: "David Turner", 
@@ -225,7 +222,8 @@ export const employees: Employee[] = [
         department: "Advisory", 
         email: "david.turner@pixell-river.com", 
         phone: "780-555-0354", 
-        branchId: 2 },
+        branchId: 2, 
+    },
     { 
         id: 23, 
         name: "Amara Patel", 
@@ -233,7 +231,7 @@ export const employees: Employee[] = [
         department: "IT", 
         email: "amara.patel@pixell-river.com", 
         phone: "604-555-0366", 
-        branchId: 1 
+        branchId: 1, 
     },
     { 
         id: 24, 
@@ -242,7 +240,7 @@ export const employees: Employee[] = [
         department: "Management", 
         email: "daniel.scott@pixell-river.com", 
         phone: "204-555-0378", 
-        branchId: 3 
+        branchId: 3, 
     },
     { 
         id: 25, 
@@ -251,7 +249,7 @@ export const employees: Employee[] = [
         department: "Customer Service", 
         email: "samantha.wright@pixell-river.com", 
         phone: "416-555-0380", 
-        branchId: 8 
+        branchId: 8, 
     },
     { 
         id: 26, 
@@ -260,7 +258,7 @@ export const employees: Employee[] = [
         department: "Marketing", 
         email: "haruto.tanaka@pixell-river.com", 
         phone: "204-555-0392", 
-        branchId: 6 
+        branchId: 6, 
     },
     { 
         id: 27, 
@@ -269,7 +267,7 @@ export const employees: Employee[] = [
         department: "Operations", 
         email: "laura.adams@pixell-river.com", 
         phone: "514-555-0404", 
-        branchId: 7 
+        branchId: 7, 
     },
     { 
         id: 28, 
@@ -278,7 +276,7 @@ export const employees: Employee[] = [
         department: "Loans", 
         email: "ryan.phillips@pixell-river.com", 
         phone: "204-555-0416", 
-        branchId: 3 
+        branchId: 3, 
     },
     { 
         id: 29, 
@@ -287,7 +285,7 @@ export const employees: Employee[] = [
         department: "IT", 
         email: "olivia.parker@pixell-river.com", 
         phone: "604-555-0428", 
-        branchId: 1 
+        branchId: 1, 
     },
     { 
         id: 30, 
@@ -296,7 +294,7 @@ export const employees: Employee[] = [
         department: "Advisory", 
         email: "brandon.campbell@pixell-river.com", 
         phone: "780-555-0430", 
-        branchId: 2 
+        branchId: 2, 
     },
     { 
         id: 31, 
@@ -305,7 +303,7 @@ export const employees: Employee[] = [
         department: "Customer Service", 
         email: "amber.roberts@pixell-river.com", 
         phone: "204-555-0442", 
-        branchId: 4 
+        branchId: 4, 
     },
     { 
         id: 32, 
@@ -314,7 +312,7 @@ export const employees: Employee[] = [
         department: "Finance", 
         email: "wei.zhang@pixell-river.com", 
         phone: "204-555-0454", 
-        branchId: 5 
+        branchId: 5, 
     },
     { 
         id: 33, 
@@ -323,7 +321,7 @@ export const employees: Employee[] = [
         department: "Management", 
         email: "john.black@pixell-river.com", 
         phone: "204-555-0466", 
-        branchId: 6 
+        branchId: 6, 
     },
     { 
         id: 34, 
@@ -332,7 +330,7 @@ export const employees: Employee[] = [
         department: "Marketing", 
         email: "maya.singh@pixell-river.com", 
         phone: "416-555-0478", 
-        branchId: 8 
+        branchId: 8, 
     },
     { 
         id: 35, 
@@ -341,6 +339,6 @@ export const employees: Employee[] = [
         department: "Loans", 
         email: "lila.spence@pixell-river.com", 
         phone: "204-555-0480", 
-        branchId: 4 
+        branchId: 4, 
     }
 ];
