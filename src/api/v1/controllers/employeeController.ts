@@ -13,36 +13,43 @@ export const createEmployee = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
     try {
         if (!req.body.name) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Name is required",
             });
+            return; 
         } else if (!req.body.position) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Position is required",
             });
+            return; 
         } else if (!req.body.department) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Department is required",
             });
+            return; 
         } else if (!req.body.email) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Email is required",
             });
+            return; 
         } else if (!req.body.phone) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Phone Number is required",
             });
+            return;
         } else if (!req.body.branchId) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Branch ID is required",
             });
+            return; 
         } else if (isNaN(req.body.branchId)) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Employee's Branch ID is not numeric",
             });
+            return;
         } else {
             const { 
                 name, 
@@ -74,24 +81,81 @@ export const createEmployee = async (
 };
 
 /**
- * Manages requests and responses to retrieve all Employees
+ * Manages requests and responses to retrieve a list of Employees
  * @param req - The express Request
  * @param res  - The express Response
  * @param next - The express middleware chaining function
  */
-export const getAllEmployees = async (
+export const getEmployees = async (
     req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> => {
     try {
-        const employees: Employee[] = 
-        await employeeService.getAllEmployees();
+        const { branchId, department } = req.query;
 
-        res.status(HTTP_STATUS.OK).json({
-            message: "Employees retrieved successfully",
-            data: employees
-        });
+        // GET employees in branch
+        if (typeof branchId === "string") {
+            if (branchId.length === 0) {
+                res.status(HTTP_STATUS.BAD_REQUEST).json({
+                    message: `Branch ID cannot be left blank`,
+                });
+                return;
+            }
+
+            const branchEmployees: Employee[] = await
+            employeeService.getBranchEmployees(parseInt(branchId));
+            
+            if (branchEmployees.length <= 0) {
+                res.status(HTTP_STATUS.NOT_FOUND).json({
+                    message: `Employees from branch ${branchId} not found`,
+                });
+                return;
+            } 
+
+            res.status(HTTP_STATUS.OK).json({
+                message: `Employees from branch ${branchId} retrieved successfully`,
+                data: branchEmployees
+            });
+            return;
+
+        // GET employees in department
+        } else if (typeof department === "string") {
+            if (department.length === 0) {
+                res.status(HTTP_STATUS.BAD_REQUEST).json({
+                    message: `Department cannot be left blank`,
+                });
+                return;
+            }
+
+            console.log(department);
+
+            const departmentEmployees: Employee[] = await
+            employeeService.getDepartmentEmployees(department);
+            
+            if (departmentEmployees.length <= 0) {
+                res.status(HTTP_STATUS.NOT_FOUND).json({
+                    message: `Employees from ${department} not found`
+                });
+                return;
+            } 
+
+            res.status(HTTP_STATUS.OK).json({
+                message: `Employees from ${department} retrieved successfully`,
+                data: departmentEmployees
+            });
+            return;
+
+        // default GET all employees
+        } else {
+            const employees: Employee[] = 
+            await employeeService.getAllEmployees();
+
+            res.status(HTTP_STATUS.OK).json({
+                message: "Employees retrieved successfully",
+                data: employees
+            });
+        }
     } catch (error: unknown) {
         next(error);
     }
@@ -169,68 +233,6 @@ export const deleteEmployee = async (
         await employeeService.deleteEmployee(id);
         res.status(HTTP_STATUS.OK).json({
             message: `Employee ${id} deleted successfully`,
-        });
-    } catch (error: unknown) {
-        next(error);
-    }
-};
-
-/**
- * Manages requests and responses to retrieve Employees from a branch
- * @param req - The express Request
- * @param res  - The express Response
- * @param next - The express middleware chaining function
- */
-export const getBranchEmployees = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-): Promise<void> => {
-    try {
-        const { branchId } = req.params;
-        const branchEmployees: Employee[] = await
-        employeeService.getBranchEmployees(parseInt(branchId));
-
-        if (branchEmployees.length <= 0) {
-            res.status(HTTP_STATUS.NOT_FOUND).json({
-                message: `Employees from branch ${branchId} not found`,
-            });
-        } 
-
-        res.status(HTTP_STATUS.OK).json({
-            message: `Employees from branch ${branchId} retrieved successfully`,
-            data: branchEmployees
-        });
-    } catch (error: unknown) {
-        next(error);
-    }
-};
-
-/**
- * Manages requests and responses to retrieve Employees from a department
- * @param req - The express Request
- * @param res  - The express Response
- * @param next - The express middleware chaining function
- */
-export const getDepartmentEmployees = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-): Promise<void> => {
-    try {
-        const { department } = req.params;
-        const departmentEmployees: Employee[] = await
-        employeeService.getDepartmentEmployees(department);
-        
-        if (departmentEmployees.length <= 0) {
-            res.status(HTTP_STATUS.NOT_FOUND).json({
-                message: `Employees from ${department} not found`
-            });
-        } 
-
-        res.status(HTTP_STATUS.OK).json({
-            message: `Employees from ${department} retrieved successfully`,
-            data: departmentEmployees
         });
     } catch (error: unknown) {
         next(error);

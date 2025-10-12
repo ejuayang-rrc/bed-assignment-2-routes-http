@@ -11,5 +11,5 @@ export const HTTP_STATUS = {
     NOT_FOUND: 404,
 
     // Server error responses
-    INTERNAL_SERVER_ERROR: 500,
+    INTERNAL_SERVER_ERROR: 500
 } as const;

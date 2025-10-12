@@ -1,4 +1,4 @@
-import request from "supertest";
+import request, { Response } from "supertest";
 import app from "../src/app";
 import { HTTP_STATUS } from "../src/constants/httpConstants";
 import * as employeeService from "../src/api/v1/services/employeeService";
@@ -11,10 +11,22 @@ describe("Employee API Endpoints", () => {
         jest.clearAllMocks();
     });
 
+    /**
+     * Interface to mock Employee data
+     */
+    interface MockEmployeeData {
+        name?: string;
+        position?: string;
+        department?: string;
+        email?: string;
+        phone?: string;
+        branchId?: string;
+    };
+
     describe("POST /api/v1/employees/", () => {
         it("should create a new employee with valid data", async () => {
             // ARRANGE:
-            const mockEmployee = {
+            const mockEmployee: MockEmployeeData = {
                 name: "Test Name",
                 position: "Test Position",
                 department: "Test Department",
@@ -24,7 +36,6 @@ describe("Employee API Endpoints", () => {
             };
 
             // ACT:
-            const response = 
             await request(app).post("/api/v1/employees/").send(mockEmployee);
 
             // ASSERT:
@@ -33,7 +44,7 @@ describe("Employee API Endpoints", () => {
 
         it("should return 400 with missing parameters", async () => {
             // ACT:
-            const response = await request(app).post("/api/v1/employees/").send({});
+            const response: Response = await request(app).post("/api/v1/employees/").send({});
 
             // ASSERT: 
             expect(response.status).toBe(HTTP_STATUS.BAD_REQUEST);
@@ -71,13 +82,13 @@ describe("Employee API Endpoints", () => {
     describe("PUT /api/v1/employees/:id", () => {
         it("should successfully update an employee", async () => {
             // ARRANGE:
-            const mockItem = {
+            const mockEmployee: MockEmployeeData = {
                 position: "Updated Position",
                 phone: "Updated Phone Number",
             };
 
             // ACT:
-            await request(app).put("/api/v1/employees/1").send(mockItem);
+            await request(app).put("/api/v1/employees/1").send(mockEmployee);
 
             // ASSERT:
             expect(employeeService.updateEmployee).toHaveBeenCalled();
@@ -85,7 +96,7 @@ describe("Employee API Endpoints", () => {
 
         it("should return 404 when ID parameter is missing", async () => {
             // ACT:
-            const response = await request(app).put("/api/v1/employees/");
+            const response: Response = await request(app).put("/api/v1/employees/");
 
             // ASSERT:
             expect(response.status).toBe(HTTP_STATUS.NOT_FOUND);
@@ -103,48 +114,46 @@ describe("Employee API Endpoints", () => {
 
         it("should return 404 when ID parameter is missing", async () => {
             // ACT:
-            const response = await request(app).delete("/api/v1/employees/");
+            const response: Response = await request(app).delete("/api/v1/employees/");
 
             // ASSERT:
             expect(response.status).toBe(HTTP_STATUS.NOT_FOUND);
         });
     });
 
-    describe("PUT /api/v1/employees/branch/:branchId", () => {
+    describe("PUT /api/v1/employees/?branchId=", () => {
         it("should retrieve an array of employees from the same branch", async () => {
             // ACT:
-            await request(app).get("/api/v1/employees/branch/3");
+            await request(app).get("/api/v1/employees/?branchId=1");
 
             // ASSERT:
             expect(employeeService.getBranchEmployees).toHaveBeenCalled();
         });
 
-        // No clue how else to do this, http status keeps returning 200
-        // it("should return 500 if branch is left blank", async () => {
-        //     // ACT:
-        //     const response = await request(app).get("/api/v1/employees/branch/");
+        it("should return 400 if branch is left blank", async () => {
+            // ACT:
+            const response: Response = await request(app).get("/api/v1/employees/?branchId=");
 
-        //     // ASSERT:
-        //     expect(response.status).toBe(500);
-        // });
+            // ASSERT:
+            expect(response.status).toBe(400);
+        });
     });
 
-    describe("PUT /api/v1/employees/department/:department", () => {
+    describe("PUT /api/v1/employees/?department=", () => {
         it("should retrieve an array of employees from the same department", async () => {
             // ACT:
-            await request(app).get("/api/v1/employees/department/IT");
+            await request(app).get("/api/v1/employees/?department=IT");
 
             // ASSERT:
             expect(employeeService.getDepartmentEmployees).toHaveBeenCalled();
         });
 
-        // No clue how else to do this, http status keeps returning 200
-        // it("should return 500 if department is left blank", async () => {
-        //     // ACT:
-        //     const response = await request(app).get("/api/v1/employees/department/");
+        it("should return 400 if department is left blank", async () => {
+            // ACT:
+            const response: Response = await request(app).get("/api/v1/employees/?department=");
 
-        //     // ASSERT:
-        //     expect(response.status).toBe(500);
-        // });
+            // ASSERT:
+            expect(response.status).toBe(400);
+        });
     });
 })

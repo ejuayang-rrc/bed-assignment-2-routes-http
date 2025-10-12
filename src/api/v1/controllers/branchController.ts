@@ -21,14 +21,17 @@ export const createBranch = async (
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Branch Name is required",
             });
+            return;
         } else if (!req.body.address) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Branch Email is required",
             });
+            return;
         } else if (!req.body.phone) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 message: "Branch Phone Number is required",
             });
+            return;
         } else {
             const { 
                 name,

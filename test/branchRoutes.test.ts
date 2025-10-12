@@ -1,4 +1,4 @@
-import request from "supertest";
+import request, { Response } from "supertest";
 import app from "../src/app";
 import { HTTP_STATUS } from "../src/constants/httpConstants";
 import * as branchService from "../src/api/v1/services/branchService";
@@ -11,17 +11,25 @@ describe("Branch API Endpoints", () => {
         jest.clearAllMocks();
     });
 
+    /**
+     * Interface to mock Branch data
+     */
+    interface MockBranchData {
+        name?: string;
+        address?: string;
+        phone?: string;
+    };
+
     describe("POST /api/v1/branch/", () => {
         it("should create a new branch with valid data", async () => {
             // ARRANGE:
-            const mockBranch = {
+            const mockBranch: MockBranchData = {
                 name: "Test Name",
                 address: "Test Position",
                 phone: "123-234-5678",
             };
 
             // ACT:
-            const response = 
             await request(app).post("/api/v1/branch/").send(mockBranch);
 
             // ASSERT:
@@ -68,13 +76,13 @@ describe("Branch API Endpoints", () => {
     describe("PUT /api/v1/branch/:id", () => {
         it("should successfully update a branch", async () => {
             // ARRANGE:
-            const mockItem = {
+            const mockBranch: MockBranchData = {
                 address: "Updated Address",
                 phone: "098-875-1234",
             };
 
             // ACT:
-            await request(app).put("/api/v1/branch/1").send(mockItem);
+            await request(app).put("/api/v1/branch/1").send(mockBranch);
 
             // ASSERT:
             expect(branchService.updateBranch).toHaveBeenCalled();
@@ -82,7 +90,7 @@ describe("Branch API Endpoints", () => {
 
         it("should return 404 when ID parameter is missing", async () => {
             // ACT:
-            const response = await request(app).put("/api/v1/branch/");
+            const response: Response = await request(app).put("/api/v1/branch/");
 
             // ASSERT:
             expect(response.status).toBe(HTTP_STATUS.NOT_FOUND);
@@ -100,7 +108,7 @@ describe("Branch API Endpoints", () => {
 
         it("should return 404 when ID parameter is missing", async () => {
             // ACT:
-            const response = await request(app).delete("/api/v1/branch/");
+            const response: Response = await request(app).delete("/api/v1/branch/");
 
             // ASSERT:
             expect(response.status).toBe(HTTP_STATUS.NOT_FOUND);

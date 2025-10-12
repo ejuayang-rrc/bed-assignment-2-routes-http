@@ -127,7 +127,7 @@ export const deleteEmployee = async (
 export const getBranchEmployees = async (
     id: number
 ): Promise<Employee[]> => {
-    let branchEmployees: Employee[] = [];
+    const branchEmployees: Employee[] = [];
 
     for (const index in employees) {
         if (id === employees[index].branchId) {
