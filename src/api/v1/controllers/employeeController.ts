@@ -47,11 +47,6 @@ export const createEmployee = async (
                 errorResponse("Employee's Branch ID is required")
             );
             return; 
-        } else if (isNaN(req.body.branchId)) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json(
-                errorResponse("Employee's Branch ID is not numeric")
-            );
-            return;
         } else {
             const { 
                 name, 
@@ -183,7 +178,7 @@ export const getEmployeeById = async (
     try {
         const { id } = req.params;
         const employee: Employee = 
-        await employeeService.getEmployeeById(parseInt(id));
+        await employeeService.getEmployeeById(id);
 
         res.status(HTTP_STATUS.OK).json(
             successResponse(
@@ -213,7 +208,7 @@ export const updateEmployee = async (
 
         const updatedEmployee: Employee = 
         await employeeService.updateEmployee(
-            parseInt(id),
+            id,
             { position, phone }
         );
 
@@ -240,7 +235,7 @@ export const deleteEmployee = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const id: number = parseInt(req.params.id);
+        const id: string = req.params.id;
 
         await employeeService.deleteEmployee(id);
         res.status(HTTP_STATUS.OK).json(

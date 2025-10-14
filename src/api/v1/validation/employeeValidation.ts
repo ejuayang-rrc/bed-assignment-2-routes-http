@@ -46,12 +46,10 @@ export const employeeUpdateSchema = Joi.object<Employee>({
     position: Joi.string()
     .trim()
     .min(3).max(100)
-    .required()
     .label('Position'),
 
     phone: Joi.string()
     .pattern(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/)
-    .required()
     .messages({
         'string.pattern.base': 'Phone Number is invalid'
     })
