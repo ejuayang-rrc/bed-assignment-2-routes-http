@@ -128,8 +128,6 @@ export const getEmployees = async (
                 return;
             }
 
-            console.log(department);
-
             const departmentEmployees: Employee[] = await
             employeeService.getDepartmentEmployees(department);
             
