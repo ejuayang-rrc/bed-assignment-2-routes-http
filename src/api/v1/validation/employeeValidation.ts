@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { Employee } from "../../../data/employees";
+import { Employee } from "src/api/v1/models/employeeModel";
 
 export const employeeSchema = Joi.object<Employee>({
     name: Joi.string()

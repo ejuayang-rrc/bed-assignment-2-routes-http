@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import * as employeeService from "../services/employeeService";
-import { Employee } from "src/data/employees";
+import { Employee } from "src/api/v1/models/employeeModel";
 
 /**
  * Manages requests and responses to create an Employee

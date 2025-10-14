@@ -1,4 +1,5 @@
-import { Branch, branches } from "../../../data/branches";
+import { branches } from "../../../data/branches";
+import { Branch } from "src/api/v1/models/branchModel";
 
 /**
  * Creates a new branch with the given information

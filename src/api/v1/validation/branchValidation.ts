@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { Branch } from "../../../data/branches";
+import { Branch } from "src/api/v1/models/branchModel";
 
 export const branchSchema = Joi.object<Branch>({
     name: Joi.string()

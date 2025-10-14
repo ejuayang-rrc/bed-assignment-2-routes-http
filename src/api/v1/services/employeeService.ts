@@ -1,4 +1,5 @@
-import { Employee, employees } from "../../../data/employees";
+import { employees } from "../../../data/employees";
+import { Employee } from "src/api/v1/models/employeeModel";
 
 /**
  * Creates a new employee with the given information
