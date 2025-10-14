@@ -3,6 +3,7 @@ import morgan from "morgan";
 
 import employeeRoutes from "./api/v1/routes/employeeRoutes";
 import branchRoutes from "./api/v1/routes/branchRoutes";
+import { validationMiddleware } from "./api/v1/middleware/validation"; 
 
 // Initialize Express application
 const app: Express = express();
@@ -12,6 +13,9 @@ app.use(morgan("combined"));
 
 // Ensures incoming body is correctly parsed to JSON
 app.use(express.json());
+
+// Use validation middleware
+app.use(validationMiddleware);
 
 /**
  * Health check route that returns server status details
