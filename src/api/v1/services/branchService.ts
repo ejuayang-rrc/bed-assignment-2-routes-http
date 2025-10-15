@@ -16,7 +16,21 @@ export const createBranch = async (
     branchData: Omit<Branch, "id">
 ): Promise<Branch> => {
     try {
-        const branches: Branch[] = await getAllBranches();
+        // Retrieve collection of branches
+        let branches: Branch[] = [];
+        const snapshot: QuerySnapshot = 
+        await firestoreRepository.getDocuments("branches");
+
+        if (snapshot) {
+            branches = snapshot.docs.map((doc) => {
+                const data: DocumentData = doc.data();
+                return {
+                    id: parseInt(doc.id),
+                    ...data,
+                } as Branch;
+            });
+        }
+
         let newId: number = 0;
         let isNotUnique: boolean = true;
 

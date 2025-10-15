@@ -103,7 +103,7 @@ export const getEmployees = async (
             }
 
             const branchEmployees: Employee[] = await
-            employeeService.getBranchEmployees(parseInt(branchId));
+            employeeService.getBranchEmployees(branchId);
             
             if (branchEmployees.length <= 0) {
                 res.status(HTTP_STATUS.NOT_FOUND).json(

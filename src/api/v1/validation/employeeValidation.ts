@@ -16,7 +16,7 @@ export const employeeSchema = Joi.object<Employee>({
 
     department: Joi.string()
     .trim()
-    .min(3).max(100)
+    .min(2).max(100)
     .required()
     .label('Department'),
 

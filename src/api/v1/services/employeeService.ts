@@ -16,7 +16,21 @@ export const createEmployee = async (
     employeeData: Omit<Employee, "id">
 ): Promise<Employee> => {
     try {
-        const employees: Employee[] = await getAllEmployees();
+        // Retrieve collection of employees
+        let employees: Employee[] = [];
+        const snapshot: QuerySnapshot = 
+        await firestoreRepository.getDocuments("employees");
+
+        if (snapshot) {
+            employees = snapshot.docs.map((doc) => {
+                const data: DocumentData = doc.data();
+                return {
+                    id: parseInt(doc.id),
+                    ...data,
+                } as Employee;
+            });
+        }
+
         let newId: number = 0;
         let isNotUnique: boolean = true;
 
@@ -181,14 +195,14 @@ export const deleteEmployee = async (
  * @returns Employees within the same branch
  */
 export const getBranchEmployees = async (
-    id: number
+    id: string
 ): Promise<Employee[]> => {
     try {
         const employees: Employee[] = await getAllEmployees();
         const branchEmployees: Employee[] = [];
 
         for (const index in employees) {
-            if (id === employees[index].branchId) {
+            if (id === employees[index].branchId.toString()) {
                 branchEmployees.push(employees[index]);
             }
         }
