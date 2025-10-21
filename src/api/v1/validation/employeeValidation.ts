@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { Employee } from "src/api/v1/models/employeeModel";
 
-export const employeeSchema = Joi.object<Employee>({
+export const employeeSchema: Joi.ObjectSchema<Employee> = Joi.object<Employee>({
     name: Joi.string()
     .trim()
     .min(3).max(100)
@@ -42,7 +42,7 @@ export const employeeSchema = Joi.object<Employee>({
     .label('Branch ID')
 });
 
-export const employeeUpdateSchema = Joi.object<Employee>({
+export const employeeUpdateSchema: Joi.ObjectSchema<Employee> = Joi.object<Employee>({
     position: Joi.string()
     .trim()
     .min(3).max(100)

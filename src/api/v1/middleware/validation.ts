@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 
+import { Employee } from "../models/employeeModel";
+import { Branch } from "../models/branchModel";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { branchSchema, branchUpdateSchema } from "../validation/branchValidation";
 import { employeeSchema, employeeUpdateSchema } from "../validation/employeeValidation";
@@ -24,8 +26,8 @@ export const validationMiddleware = async (
          */
         const validateData = (
             joiSchema: Joi.ObjectSchema,
-            requestData: any
-        ): any => {
+            requestData: Employee | Branch
+        ): Employee | Branch => {
             const { error, value } = joiSchema.validate(requestData);
             if (error) {
                 res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -56,7 +58,7 @@ export const validationMiddleware = async (
             req.body = validateData(branchSchema, req.body);
         }
         next();
-    } catch (error: unknown) {
+    } catch {
         res.status(HTTP_STATUS.BAD_REQUEST).json({
             message: "Error occurred during validation"
         });

@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { Branch } from "src/api/v1/models/branchModel";
 
-export const branchSchema = Joi.object<Branch>({
+export const branchSchema: Joi.ObjectSchema<Branch> = Joi.object<Branch>({
     name: Joi.string()
     .trim()
     .min(3).max(100)
@@ -23,7 +23,7 @@ export const branchSchema = Joi.object<Branch>({
     .label("Phone Number")
 });
 
-export const branchUpdateSchema = Joi.object<Branch>({
+export const branchUpdateSchema: Joi.ObjectSchema<Branch> = Joi.object<Branch>({
     address: Joi.string()
     .trim()
     .min(3).max(100)
