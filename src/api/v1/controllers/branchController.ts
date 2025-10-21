@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import * as branchService from "../services/branchService";
-import { Branch } from "src/data/branches";
+import { Branch } from "src/api/v1/models/branchModel";
+import { errorResponse, successResponse } from "../models/responseModel";
 
 /**
  * Manages requests and responses to create a Branch
@@ -18,19 +19,19 @@ export const createBranch = async (
         console.log("BODY: "+ req.body);
 
         if (!req.body.name) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Branch Name is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Branch Name is required")
+            );
             return;
         } else if (!req.body.address) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Branch Email is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Branch Email is required")
+            );
             return;
         } else if (!req.body.phone) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Branch Phone Number is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Branch Phone Number is required")
+            );
             return;
         } else {
             const { 
@@ -46,10 +47,12 @@ export const createBranch = async (
                 phone
             });
 
-            res.status(HTTP_STATUS.CREATED).json({
-                message: `Branch ${newBranch.id} created successfully`,
-                data: newBranch
-            });
+            res.status(HTTP_STATUS.CREATED).json(
+                successResponse(
+                    newBranch,
+                    `Branch ${newBranch.id} created successfully`
+                )
+            );
         }
     } catch (error: unknown) {
         next(error);
@@ -71,10 +74,12 @@ export const getAllBranches = async (
         const branches: Branch[] = 
         await branchService.getAllBranches();
 
-        res.status(HTTP_STATUS.OK).json({
-            message: "Branches retrieved successfully",
-            data: branches
-        });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                branches,
+                "Branches retrieved successfully"
+            )
+        );
     } catch (error: unknown) {
         next(error);
     }
@@ -95,12 +100,14 @@ export const getBranchById = async (
         const { id } = req.params;
 
         const branch: Branch = 
-        await branchService.getBranchById(parseInt(id));
+        await branchService.getBranchById(id);
 
-        res.status(HTTP_STATUS.OK).json({
-            message: `Branch ${id} retrieved successfully`,
-            data: branch
-        });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                branch,
+                `Branch ${id} retrieved successfully`
+            )
+        );
     } catch (error: unknown) {
         next(error);
     }
@@ -123,14 +130,16 @@ export const updateBranch = async (
 
         const updatedBranch: Branch = 
         await branchService.updateBranch(
-            parseInt(id),
+            id,
             { address, phone }
         );
 
-        res.status(HTTP_STATUS.OK).json({
-            message: `Branch ${id} updated successfully`,
-            data: updatedBranch
-        });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                updatedBranch,
+                `Branch ${id} updated successfully`
+            )   
+        );
     } catch (error: unknown) {
         next(error);
     }
@@ -148,12 +157,12 @@ export const deleteBranch = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const id: number = parseInt(req.params.id);
+        const id: string = req.params.id;
 
         await branchService.deleteBranch(id);
-        res.status(HTTP_STATUS.OK).json({
-            message: `Branch ${id} deleted successfully`,
-        });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(`Branch ${id} deleted successfully`)
+        );
     } catch (error: unknown) {
         next(error);
     }

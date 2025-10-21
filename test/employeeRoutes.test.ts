@@ -84,7 +84,7 @@ describe("Employee API Endpoints", () => {
             // ARRANGE:
             const mockEmployee: MockEmployeeData = {
                 position: "Updated Position",
-                phone: "Updated Phone Number",
+                phone: "123-345-6789",
             };
 
             // ACT:

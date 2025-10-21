@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from "express";
+
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import * as employeeService from "../services/employeeService";
-import { Employee } from "src/data/employees";
+import { Employee } from "src/api/v1/models/employeeModel";
+import { successResponse, errorResponse } from "../models/responseModel";
 
 /**
  * Manages requests and responses to create an Employee
@@ -16,40 +18,35 @@ export const createEmployee = async (
 ): Promise<void> => {
     try {
         if (!req.body.name) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Employee's Name is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Employee's Name is required")
+            );
             return; 
         } else if (!req.body.position) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Employee's Position is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Employee's Position is required")
+            );
             return; 
         } else if (!req.body.department) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Employee's Department is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Employee's Department is required")
+            );
             return; 
         } else if (!req.body.email) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Employee's Email is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Employee's Email is required")
+            );
             return; 
         } else if (!req.body.phone) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Employee's Phone Number is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Employee's Phone Number is required")
+            );
             return;
         } else if (!req.body.branchId) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Employee's Branch ID is required",
-            });
+            res.status(HTTP_STATUS.BAD_REQUEST).json(
+                errorResponse("Employee's Branch ID is required")
+            );
             return; 
-        } else if (isNaN(req.body.branchId)) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: "Employee's Branch ID is not numeric",
-            });
-            return;
         } else {
             const { 
                 name, 
@@ -70,10 +67,12 @@ export const createEmployee = async (
                 branchId 
             });
 
-            res.status(HTTP_STATUS.CREATED).json({
-                message: `Employee ${newEmployee.id} created successfully`,
-                data: newEmployee
-            });
+            res.status(HTTP_STATUS.CREATED).json(
+                successResponse(
+                    newEmployee, 
+                    `Employee ${newEmployee.id} created successfully`
+                )
+            );
         }
     } catch (error: unknown) {
         next(error);
@@ -97,53 +96,55 @@ export const getEmployees = async (
         // GET employees in branch
         if (typeof branchId === "string") {
             if (branchId.length === 0) {
-                res.status(HTTP_STATUS.BAD_REQUEST).json({
-                    message: `Branch ID cannot be left blank`,
-                });
+                res.status(HTTP_STATUS.BAD_REQUEST).json(
+                    errorResponse(`Branch ID cannot be left blank`)
+                );
                 return;
             }
 
             const branchEmployees: Employee[] = await
-            employeeService.getBranchEmployees(parseInt(branchId));
+            employeeService.getBranchEmployees(branchId);
             
             if (branchEmployees.length <= 0) {
-                res.status(HTTP_STATUS.NOT_FOUND).json({
-                    message: `Employees from branch ${branchId} not found`,
-                });
+                res.status(HTTP_STATUS.NOT_FOUND).json(
+                    errorResponse(`Employees from branch ${branchId} not found`)
+                );
                 return;
             } 
 
-            res.status(HTTP_STATUS.OK).json({
-                message: `Employees from branch ${branchId} retrieved successfully`,
-                data: branchEmployees
-            });
+            res.status(HTTP_STATUS.OK).json(
+                successResponse(
+                    branchEmployees, 
+                    `Employees from branch ${branchId} retrieved successfully`
+                )
+            );
             return;
 
         // GET employees in department
         } else if (typeof department === "string") {
             if (department.length === 0) {
-                res.status(HTTP_STATUS.BAD_REQUEST).json({
-                    message: `Department cannot be left blank`,
-                });
+                res.status(HTTP_STATUS.BAD_REQUEST).json(
+                    errorResponse(`Department cannot be left blank`)
+                );
                 return;
             }
-
-            console.log(department);
 
             const departmentEmployees: Employee[] = await
             employeeService.getDepartmentEmployees(department);
             
             if (departmentEmployees.length <= 0) {
-                res.status(HTTP_STATUS.NOT_FOUND).json({
-                    message: `Employees from ${department} not found`
-                });
+                res.status(HTTP_STATUS.NOT_FOUND).json(
+                    errorResponse(`Employees from ${department} not found`)
+                );
                 return;
             } 
 
-            res.status(HTTP_STATUS.OK).json({
-                message: `Employees from ${department} retrieved successfully`,
-                data: departmentEmployees
-            });
+            res.status(HTTP_STATUS.OK).json(
+                successResponse(
+                    departmentEmployees, 
+                    `Employees from ${department} retrieved successfully`
+                )
+            );
             return;
 
         // default GET all employees
@@ -151,10 +152,12 @@ export const getEmployees = async (
             const employees: Employee[] = 
             await employeeService.getAllEmployees();
 
-            res.status(HTTP_STATUS.OK).json({
-                message: "Employees retrieved successfully",
-                data: employees
-            });
+            res.status(HTTP_STATUS.OK).json(
+                successResponse(
+                    employees, 
+                    "Employees retrieved successfully"
+                )
+            );
         }
     } catch (error: unknown) {
         next(error);
@@ -175,12 +178,14 @@ export const getEmployeeById = async (
     try {
         const { id } = req.params;
         const employee: Employee = 
-        await employeeService.getEmployeeById(parseInt(id));
+        await employeeService.getEmployeeById(id);
 
-        res.status(HTTP_STATUS.OK).json({
-            message: `Employee ${id} retrieved successfully`,
-            data: employee
-        });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                employee, 
+                `Employee ${id} retrieved successfully`
+            )
+        );
     } catch (error: unknown) {
         next(error);
     }
@@ -203,14 +208,16 @@ export const updateEmployee = async (
 
         const updatedEmployee: Employee = 
         await employeeService.updateEmployee(
-            parseInt(id),
+            id,
             { position, phone }
         );
 
-        res.status(HTTP_STATUS.OK).json({
-            message: `Employee ${id} updated successfully`,
-            data: updatedEmployee
-        });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                updatedEmployee, 
+                `Employee ${id} updated successfully`
+            )
+        );
     } catch (error: unknown) {
         next(error);
     }
@@ -228,12 +235,14 @@ export const deleteEmployee = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const id: number = parseInt(req.params.id);
+        const id: string = req.params.id;
 
         await employeeService.deleteEmployee(id);
-        res.status(HTTP_STATUS.OK).json({
-            message: `Employee ${id} deleted successfully`,
-        });
+        res.status(HTTP_STATUS.OK).json(
+            successResponse(
+                `Employee ${id} deleted successfully`
+            )
+        );
     } catch (error: unknown) {
         next(error);
     }

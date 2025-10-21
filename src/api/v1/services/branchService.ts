@@ -1,4 +1,11 @@
-import { Branch, branches } from "../../../data/branches";
+import {
+    QuerySnapshot,
+    DocumentData,
+    DocumentSnapshot,
+} from "firebase-admin/firestore";
+
+import * as firestoreRepository from "../repositories/firestoreRepository";
+import { Branch } from "src/api/v1/models/branchModel";
 
 /**
  * Creates a new branch with the given information
@@ -8,31 +15,57 @@ import { Branch, branches } from "../../../data/branches";
 export const createBranch = async (
     branchData: Omit<Branch, "id">
 ): Promise<Branch> => {
-    let newId: number = 0;
-    let isNotUnique: boolean = true;
+    try {
+        // Retrieve collection of branches
+        let branches: Branch[] = [];
+        const snapshot: QuerySnapshot = 
+        await firestoreRepository.getDocuments("branches");
 
-    // Goes through branches until new ID doesn't match existing IDs
-    while (isNotUnique) {
-        newId += 1;
-        isNotUnique = false;
+        if (snapshot) {
+            branches = snapshot.docs.map((doc) => {
+                const data: DocumentData = doc.data();
+                return {
+                    id: parseInt(doc.id),
+                    ...data,
+                } as Branch;
+            });
+        }
 
-        for (const key in branches) {
-            if (newId === branches[key].id) {
-                isNotUnique = true;
-                break
+        let newId: number = 0;
+        let isNotUnique: boolean = true;
+
+        // Goes through branches until new ID doesn't match existing IDs
+        while (isNotUnique) {
+            newId += 1;
+            isNotUnique = false;
+
+            for (const key in branches) {
+                if (newId === branches[key].id) {
+                    isNotUnique = true;
+                    break
+                }
             }
         }
-    }
 
-    const newBranch: Branch = {
-        id: newId,
-        name: branchData.name,
-        address: branchData.address,
-        phone: branchData.phone
-    }
+        // Branch data setup w/out ID
+        const newBranch: Partial<Branch> = {
+            name: branchData.name,
+            address: branchData.address,
+            phone: branchData.phone
+        };
 
-    branches.push(newBranch);
-    return structuredClone(newBranch);
+        await firestoreRepository.createDocument(
+            "branches",
+            newBranch,
+            newId.toString()
+        );
+
+        return structuredClone( 
+        { id: newId, ...newBranch } as Branch
+        );
+    } catch (error: unknown) {
+        throw error;
+    }
 };
 
 /**
@@ -40,7 +73,24 @@ export const createBranch = async (
  * @returns Array of all branches
  */
 export const getAllBranches = async (): Promise<Branch[]> => {
-    return structuredClone(branches);
+    try {
+        // Get collection from firestore database
+        const snapshot: QuerySnapshot = 
+        await firestoreRepository.getDocuments("branches");
+
+        // Goes through the snapshot, formatting to array of Branches
+        const branches: Branch[] = snapshot.docs.map((doc) => {
+            const data: DocumentData = doc.data();
+            return {
+                id: parseInt(doc.id),
+                ...data,
+            } as Branch;
+        });
+
+        return branches;
+    } catch (error: unknown) {
+        throw error;
+    }
 };
 
 /**
@@ -50,20 +100,31 @@ export const getAllBranches = async (): Promise<Branch[]> => {
  * @throws Error if branch with given ID is not found
  */
 export const getBranchById = async (
-    id: number
+    id: string
 ): Promise<Branch> => {
-    // Get index of matching branch with given ID
-    const index: number = branches.findIndex(
-        (branch: Branch) => branch.id === id
-    );
+    try {
+        const doc: DocumentSnapshot | null = 
+        await firestoreRepository.getDocumentById(
+            "branches",
+            id
+        );
 
-    // If branch with given ID is not found
-    if (index === -1) {
-        throw new Error(`Couldn't find Branch with ID:${id}`);
+        // If branch with given ID is not found
+        if (!doc) {
+            throw new Error(`Couldn't find Branch with ID:${id}`);
+        }
+
+        const data: DocumentData | undefined = doc.data();
+        const branch: Branch = {
+            id: parseInt(doc.id),
+            ...data,
+        } as Branch;
+
+        return branch;
+    } catch (error: unknown) {
+        throw error;
     }
-
-    return structuredClone(branches[index]);
-}
+};
 
 /**
  * Updates an existing branch's address and/or phone number 
@@ -73,26 +134,33 @@ export const getBranchById = async (
  * @throws Error if branch with given ID is not found
  */
 export const updateBranch = async (
-    id: number,
+    id: string,
     branchData: Pick<Branch, "address" | "phone">
 ): Promise<Branch> => {
-    // Get index of matching branch with given ID
-    const index: number = branches.findIndex(
-        (branch: Branch) => branch.id === id
-    );
+    try {
+        const branch: Branch = await getBranchById(id);
 
-    // If branch with given ID is not found
-    if (index === -1) {
-        throw new Error(`Couldn't find Branch with ID:${id}`);
+        if (!branch) {
+            throw new Error(`Couldn't find Branch with ID:${id}`);
+        }
+
+        const updatedBranch: Omit<Branch, "id"> = {
+            ...branch,
+            ...branchData
+        };
+
+        await firestoreRepository.updateDocument<Branch>(
+            "branches",
+            id,
+            updatedBranch
+        )
+
+        return structuredClone(
+            { id: parseInt(id), ...updatedBranch } as Branch
+        );
+    } catch (error: unknown) {
+        throw error;
     }
-
-    // Updates the branch object with the given fields
-    branches[index] = {
-        ...branches[index],
-        ...branchData,
-    };
-
-    return structuredClone(branches[index]);
 };
 
 /**
@@ -101,17 +169,18 @@ export const updateBranch = async (
  * @throws Error if branch with given ID is not found
  */
 export const deleteBranch = async (
-    id: number
+    id: string
 ): Promise<void> => {
-    // Get index of matching branch with given ID
-    const index: number = branches.findIndex(
-        (branch: Branch) => branch.id === id
-    );
+    try {
+        // To check if branch exists
+        const branch: Branch = await getBranchById(id);
 
-    // If branch with given ID is not found
-    if (index === -1) {
-        throw new Error(`Couldn't find Branch with ID:${id}`);
+        if (!branch) {
+            throw new Error(`Couldn't find Branch with ID:${id}`);
+        }
+
+        await firestoreRepository.deleteDocument("branches", id);
+    } catch (error: unknown) {
+        throw error;
     }
-
-    branches.splice(index, 1);
 };
