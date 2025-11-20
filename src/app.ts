@@ -1,9 +1,13 @@
 import express, { Express } from "express";
 import morgan from "morgan";
+import dotenv from "dotenv";
 
 import employeeRoutes from "./api/v1/routes/employeeRoutes";
 import branchRoutes from "./api/v1/routes/branchRoutes";
-import { validationMiddleware } from "./api/v1/middleware/validation"; 
+import { validationMiddleware } from "./api/v1/middleware/validation";
+
+// Loads environment variables
+dotenv.config();
 
 // Initialize Express application
 const app: Express = express();

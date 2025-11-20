@@ -5,3 +5,4 @@ dist/
 
 # .gitignore
 back-end-dev-rrc-firebase-adminsdk-fbsvc-0a34464590.json
+.env
