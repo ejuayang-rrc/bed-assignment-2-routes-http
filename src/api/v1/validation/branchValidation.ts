@@ -1,6 +1,31 @@
 import Joi from "joi";
 import { Branch } from "src/api/v1/models/branchModel";
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Branch:
+ *       type: object
+ *       required:
+ *         - name
+ *         - address
+ *         - phone
+ *       properties:
+ *         name:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 100
+ *           example: "Joseph Mother"
+ *         address:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 100
+ *           example: "123 Birthday Street"
+ *         phone:
+ *           type: string
+ *           example: "(123) 456-7890"
+ */
 export const branchSchema: Joi.ObjectSchema<Branch> = Joi.object<Branch>({
     name: Joi.string()
     .trim()
@@ -23,6 +48,25 @@ export const branchSchema: Joi.ObjectSchema<Branch> = Joi.object<Branch>({
     .label("Phone Number")
 });
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Branch:
+ *       type: object
+ *       required:
+ *         - address
+ *         - phone
+ *       properties:
+ *         address:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 100
+ *           example: "123 Birthday Street"
+ *         phone:
+ *           type: string
+ *           example: "(123) 456-7890"
+ */
 export const branchUpdateSchema: Joi.ObjectSchema<Branch> = Joi.object<Branch>({
     address: Joi.string()
     .trim()
