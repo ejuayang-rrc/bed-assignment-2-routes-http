@@ -3,6 +3,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
+import setupSwagger from "../config/swagger";
 
 // Loads environment variables
 dotenv.config();
@@ -31,6 +32,9 @@ app.use(express.json());
 
 // Use validation middleware
 app.use(validationMiddleware);
+
+// Setup Swagger
+setupSwagger(app);
 
 /**
  * Health check route that returns server status details
