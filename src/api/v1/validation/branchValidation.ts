@@ -12,6 +12,9 @@ import { Branch } from "src/api/v1/models/branchModel";
  *         - address
  *         - phone
  *       properties:
+ *         id:
+ *           type: string
+ *           example: "abc123def"
  *         name:
  *           type: string
  *           minLength: 3
@@ -55,9 +58,18 @@ export const branchSchema: Joi.ObjectSchema<Branch> = Joi.object<Branch>({
  *     Branch:
  *       type: object
  *       required:
+ *         - name
  *         - address
  *         - phone
  *       properties:
+ *         id:
+ *           type: string
+ *           example: "abc123def"
+ *         name:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 100
+ *           example: "Joseph Mother"
  *         address:
  *           type: string
  *           minLength: 3

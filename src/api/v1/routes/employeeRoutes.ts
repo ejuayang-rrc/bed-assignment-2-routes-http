@@ -53,19 +53,15 @@ const router: Router = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/validations/Employee'
+ *               $ref: '#/components/schemas/Employee'
  *       '400':
  *         description: Invalid body input
- *           content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/validations/Error'
  */
 router.post("/", employeeController.createEmployee);
 
 /**
  * @openapi
- * /api/v1/employees:
+ * /employees:
  *   get:
  *     summary: Get all employees, or filter by branch or department
  *     tags:
@@ -94,7 +90,7 @@ router.post("/", employeeController.createEmployee);
  *                 employees:
  *                   type: array
  *                   items: 
- *                     $ref: '#/components/validations/Employee'
+ *                     $ref: '#/components/schemas/Employee'
  *       '400':
  *         description: Invalid query parameter
  *       '404':

@@ -15,6 +15,9 @@ import { Employee } from "src/api/v1/models/employeeModel";
  *         - phone
  *         - branchId
  *       properties:
+ *         id:
+ *           type: string
+ *           example: "abc123def"
  *         name:
  *           type: string
  *           minLength: 3
@@ -88,17 +91,40 @@ export const employeeSchema: Joi.ObjectSchema<Employee> = Joi.object<Employee>({
  *     Employee:
  *       type: object
  *       required:
+ *         - name
  *         - position
+ *         - department
+ *         - email
  *         - phone
+ *         - branchId
  *       properties:
+ *         id:
+ *           type: string
+ *           example: "abc123def"
+ *         name:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 100
+ *           example: "Joseph Mother"
  *         position:
  *           type: string
  *           minLength: 3
  *           maxLength: 100
  *           example: "Branch Manager"
+ *         department:
+ *           type: string
+ *           minLength: 2
+ *           maxLength: 100
+ *           example: "Management"
+ *         email:
+ *           type: string
+ *           example: "email@business.com"
  *         phone:
  *           type: string
  *           example: "(123) 456-7890"
+ *         branchId:
+ *           type: number
+ *           example: 1
  */
 export const employeeUpdateSchema: Joi.ObjectSchema<Employee> = Joi.object<Employee>({
     position: Joi.string()
