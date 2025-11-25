@@ -23,6 +23,7 @@ This project requires Typescript, Node dependencies, and an available Firebase p
     > npm install express @types/express morgan
     > npm install joi
     > npm install swagger-ui-express swagger-jsdoc
+    > npm install -D @redocly/cli
     > ```
     >
     > Optionally you can also install Jest if you'd like to run the jest tests using `npm run test`.
@@ -31,7 +32,19 @@ This project requires Typescript, Node dependencies, and an available Firebase p
     > npm install jest ts-jest @types/jest supertest @types/supertest --save-dev
     > ```
 
-4. Once set up, to run the system you can do `npm run start` which will host the project in localhost on port 3000.
+4. An .env file is required to link the Employee and Branch Management System to firestore.
+   Contents should look like this:
+
+    > ```dockerfile
+    > NODE_ENV=development
+    > PORT=3000
+    > FIREBASE_PROJECT_ID=bed-demo-g3a74
+    > FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nSOME_KEY\n-----END PRIVATE KEY-----\n"
+    > FIREBASE_CLIENT_EMAIL=firebase-adminsdk-k9r4p@cloud-project-b7c31.iam.gserviceaccount.com
+    > SWAGGER_SERVER_URL=http://localhost:3000/api/v1
+    > ```
+
+5. Once set up, to run the system you can do `npm run start` which will host the project in localhost on port 3000.
 
 ### API Request Examples
 
@@ -53,7 +66,7 @@ Retrieve a branch by ID:
 curl --location 'http://localhost:3000/api/v1/branch/3'
 ```
 
-Create a new entry under the Employees collection.
+Create a new entry under the Employees collection:
 
 ```console
 curl --location 'http://localhost:3000/api/v1/employees/' \
