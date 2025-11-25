@@ -31,7 +31,7 @@ This project requires Typescript, Node dependencies, and an available Firebase p
     > npm install jest ts-jest @types/jest supertest @types/supertest --save-dev
     > ```
 
-4. Once set up, to run the system you can do `npm run start` which will host the project in localhost under the port 3000.
+4. Once set up, to run the system you can do `npm run start` which will host the project in localhost on port 3000.
 
 ### API Request Examples
 
