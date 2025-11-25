@@ -35,17 +35,25 @@ This project requires Typescript, Node dependencies, and an available Firebase p
 
 ### API Request Examples
 
+Retrieve collection of all employees:
+
 ```console
 curl --location 'http://localhost:3000/api/v1/employees/'
 ```
+
+Retrieve a collection of employees in a specific branch:
 
 ```console
 curl --location 'http://localhost:3000/api/v1/employees?branchId=3'
 ```
 
+Retrieve a branch by ID:
+
 ```console
 curl --location 'http://localhost:3000/api/v1/branch/3'
 ```
+
+Create a new entry under the Employees collection.
 
 ```console
 curl --location 'http://localhost:3000/api/v1/employees/' \
@@ -59,6 +67,8 @@ curl --location 'http://localhost:3000/api/v1/employees/' \
     "branchId": 3
 }
 ```
+
+Modify an entry in the Branches collection:
 
 ```console
 curl --location --request PUT 'http://localhost:3000/api/v1/branch/3' \
