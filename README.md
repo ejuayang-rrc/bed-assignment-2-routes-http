@@ -46,7 +46,7 @@ This project requires Typescript, Node dependencies, and an available Firebase p
 
 5. Once set up, to run the system you can do `npm run start` which will host the project in localhost on port 3000.
 
-### API Request Examples
+## API Request Examples
 
 Retrieve collection of all employees:
 
@@ -92,7 +92,7 @@ curl --location --request PUT 'http://localhost:3000/api/v1/branch/3' \
 }'
 ```
 
-### Documentation Access
+## Documentation Access
 
 You can access documentation for this API online through this link [Documentation](https://ejuayang-rrc.github.io/bed-assignment-2-routes-http/)
 or the local index.html file under the docs directory (`../docs/index.html`).
